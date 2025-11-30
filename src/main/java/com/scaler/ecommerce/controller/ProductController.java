@@ -17,6 +17,7 @@ public class ProductController {
     @Autowired
     IProductService iProductService;
 
+    //Getmapping
     @GetMapping("/products/{id}")
     public Productdto getProduct(@PathVariable Long id) {
 
@@ -39,22 +40,17 @@ public class ProductController {
     }
 
     @DeleteMapping("/product/{id}")
-    public Boolean deleteProduct(@PathVariable Long id) {
+    public boolean deleteProduct(@PathVariable Long id) {
 
         return iProductService.deleteProduct(id);
 
-
     }
 
-    @PostMapping("/products")
-    public Productdto createProduct(Product product) {
-        Product createdProduct = iProductService.createProduct(product);
-        return from(createdProduct);
-    }
-
-    @PutMapping("/products/{id}")
+    @PutMapping("/product/{id}")
     public Productdto updateProduct(@PathVariable Long id, @RequestBody Product product) {
+
         Product updatedProduct = iProductService.replaceProduct(id, product);
+
         return from(updatedProduct);
     }
 
@@ -69,27 +65,28 @@ public class ProductController {
         dto.setDescription(product.getDescription());
         dto.setImageUrl(product.getImageUrl());
 
+
         System.out.println(product);
 
 
+        Categorydto categorydto = new Categorydto();
         if (product.getCategory() != null) {
-            Categorydto categorydto = new Categorydto();
-
             categorydto.setName(product.getCategory().getName());
             categorydto.setDescription(product.getCategory().getDescription());
             categorydto.setId(product.getCategory().getId());
 
             dto.setCategoryName(product.getCategory().getName());
 
-            // dto.setCategory(categorydto);
-
-            System.out.println(categorydto);
-
         } else {
             dto.setCategoryName(null);
         }
+        System.out.println(categorydto);
+
+//        dto.setCategoryName(product.getCategory().getName());
 
         return dto;
+
+
     }
 
 

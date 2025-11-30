@@ -1,6 +1,7 @@
 package com.scaler.ecommerce.services;
 
 import com.scaler.ecommerce.dtos.FakeStoreProductDto;
+import com.scaler.ecommerce.dtos.Productdto;
 import com.scaler.ecommerce.model.Category;
 import com.scaler.ecommerce.model.Product;
 import lombok.extern.slf4j.Slf4j;

@@ -1,5 +1,6 @@
 package com.scaler.ecommerce.services;
 
+import com.scaler.ecommerce.dtos.Productdto;
 import com.scaler.ecommerce.model.Product;
 
 import java.util.List;
