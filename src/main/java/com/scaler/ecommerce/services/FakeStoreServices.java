@@ -102,7 +102,7 @@ public class FakeStoreServices implements IProductService {
     }
 
     @Override
-    public Product deleteProduct(Long id) {
+    public Boolean deleteProduct(Long id) {
 
 //        restTemplate.delete("\"https://fakestoreapi.com/products/{id}", FakeStoreProductDto.class, id);
 
@@ -116,7 +116,7 @@ public class FakeStoreServices implements IProductService {
                 );
 
 
-        return from(response.getBody());
+        return true;
     }
 
     public Product from(FakeStoreProductDto  fakeStoreProductDto) {

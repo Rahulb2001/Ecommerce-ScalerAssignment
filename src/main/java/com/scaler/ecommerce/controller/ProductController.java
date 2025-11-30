@@ -39,10 +39,10 @@ public class ProductController {
     }
 
     @DeleteMapping("/product/{id}")
-    public Productdto deleteProduct(@PathVariable Long id) {
-        Product product = iProductService.deleteProduct(id);
+    public Boolean deleteProduct(@PathVariable Long id) {
 
-        return from(product);
+        return iProductService.deleteProduct(id);
+
 
     }
 

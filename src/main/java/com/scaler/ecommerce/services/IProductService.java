@@ -12,7 +12,7 @@ public interface IProductService {
 
     Product createProduct(Product product);
 
-    Product deleteProduct(Long id);
+    Boolean deleteProduct(Long id);
 
     public Product replaceProduct(Long id, Product input) ;
 
