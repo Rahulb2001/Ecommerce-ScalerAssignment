@@ -104,7 +104,7 @@ public class FakeStoreServices implements IProductService {
     @Override
     public Product deleteProduct(Long id) {
 
-        restTemplate.delete("\"https://fakestoreapi.com/products/{id}", FakeStoreProductDto.class, id);
+//        restTemplate.delete("\"https://fakestoreapi.com/products/{id}", FakeStoreProductDto.class, id);
 
         ResponseEntity<FakeStoreProductDto> response=
                 requestForEntity(
