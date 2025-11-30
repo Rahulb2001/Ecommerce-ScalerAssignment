@@ -84,7 +84,7 @@ public class FakeStoreServices implements IProductService {
         return true;
     }
 
-    public Product from(FakeStoreProductDto fakeStoreProductDto) {
+    public Product from(FakeStoreProductDto  fakeStoreProductDto) {
         Product product = new Product();
         product.setId(fakeStoreProductDto.getId());
         product.setName(fakeStoreProductDto.getTitle());
