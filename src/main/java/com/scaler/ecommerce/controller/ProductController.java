@@ -3,6 +3,7 @@ package com.scaler.ecommerce.controller;
 
 import com.scaler.ecommerce.dtos.Categorydto;
 import com.scaler.ecommerce.dtos.Productdto;
+import com.scaler.ecommerce.exception.NotFoundException;
 import com.scaler.ecommerce.model.Product;
 import com.scaler.ecommerce.services.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,10 @@ public class ProductController {
     public Productdto getProduct(@PathVariable Long id) {
 
         Product product = iProductService.getProductById(id);
+
+        if(product==null){
+            throw new NotFoundException("Product Not Found");
+        }
 
         return from(product);
     }
@@ -74,7 +79,7 @@ public class ProductController {
             categorydto.setDescription(product.getCategory().getDescription());
             categorydto.setId(product.getCategory().getId());
 
-            dto.setCategory(categorydto);
+//            dto.setCategory(categorydto);
             dto.setCategoryName(product.getCategory().getName());
         } else {
             dto.setCategory(null);
