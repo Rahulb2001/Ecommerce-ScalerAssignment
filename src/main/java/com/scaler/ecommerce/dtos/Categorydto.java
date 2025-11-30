@@ -1,0 +1,16 @@
+package com.scaler.ecommerce.dtos;
+
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+public class Categorydto {
+
+    private Long id;
+    private String name;
+    private String description;
+}
