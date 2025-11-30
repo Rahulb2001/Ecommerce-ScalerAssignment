@@ -56,7 +56,6 @@ public class ProductController {
 
 
     public Productdto from(Product product) {
-
         Productdto dto = new Productdto();
 
         dto.setId(product.getId());
@@ -69,24 +68,23 @@ public class ProductController {
         System.out.println(product);
 
 
-        Categorydto categorydto = new Categorydto();
         if (product.getCategory() != null) {
+            Categorydto categorydto = new Categorydto();
             categorydto.setName(product.getCategory().getName());
             categorydto.setDescription(product.getCategory().getDescription());
             categorydto.setId(product.getCategory().getId());
 
+            dto.setCategory(categorydto);
             dto.setCategoryName(product.getCategory().getName());
-
         } else {
+            dto.setCategory(null);
             dto.setCategoryName(null);
         }
-        System.out.println(categorydto);
+        System.out.println(dto.getCategory());
 
 //        dto.setCategoryName(product.getCategory().getName());
 
         return dto;
-
-
     }
 
 
