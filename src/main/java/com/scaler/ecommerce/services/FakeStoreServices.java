@@ -70,18 +70,53 @@ public class FakeStoreServices implements IProductService {
     @Override
     public Product createProduct(Product product) {
 
-        restTemplate.postForLocation("https://fakestoreapi.com/products", product);
+//        restTemplate.postForLocation("https://fakestoreapi.com/products", product);
 
-        return null;
+        FakeStoreProductDto fakeStoreProductDto = from(product);
+
+        ResponseEntity<FakeStoreProductDto> response =
+        requestForEntity("https://fakestoreapi.com/products",
+                fakeStoreProductDto,
+                FakeStoreProductDto.class,
+                HttpMethod.POST);
+
+        Product createdProduct = from(response.getBody());
+
+        return createdProduct;
     }
 
     @Override
-    public Boolean deleteProduct(Long id) {
+    public Product replaceProduct(Long id, Product input) {
+        FakeStoreProductDto fakeStoreProductDtoInput = from(input);
+
+        ResponseEntity<FakeStoreProductDto> fakeStoreProductDtoResponseEntity =
+                requestForEntity(
+                        "https://fakestoreapi.com/products/{id}",
+                        fakeStoreProductDtoInput,
+                        FakeStoreProductDto.class,
+                        HttpMethod.PUT,
+                        id
+                );
+
+        return from(fakeStoreProductDtoResponseEntity.getBody());
+    }
+
+    @Override
+    public Product deleteProduct(Long id) {
 
         restTemplate.delete("\"https://fakestoreapi.com/products/{id}", FakeStoreProductDto.class, id);
 
+        ResponseEntity<FakeStoreProductDto> response=
+                requestForEntity(
+                        "https://fakestoreapi.com/products/{id}",
+                        null,
+                        FakeStoreProductDto.class,
+                        HttpMethod.DELETE,
+                        id
+                );
 
-        return true;
+
+        return from(response.getBody());
     }
 
     public Product from(FakeStoreProductDto  fakeStoreProductDto) {
@@ -101,6 +136,19 @@ public class FakeStoreServices implements IProductService {
         return product;
 
 
+    }
+
+    private FakeStoreProductDto from(Product product) {
+        FakeStoreProductDto fakeStoreProductDto = new FakeStoreProductDto();
+        fakeStoreProductDto.setId(product.getId());
+        fakeStoreProductDto.setTitle(product.getName());
+        fakeStoreProductDto.setPrice(product.getPrice());
+        fakeStoreProductDto.setDescription(product.getDescription());
+        fakeStoreProductDto.setImage(product.getImageUrl());
+        if(product.getCategory() != null) {
+            fakeStoreProductDto.setCategory(product.getCategory().getName());
+        }
+        return fakeStoreProductDto;
     }
 
     public <T> ResponseEntity<T> requestForEntity(

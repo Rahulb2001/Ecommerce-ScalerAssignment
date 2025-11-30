@@ -6,10 +6,7 @@ import com.scaler.ecommerce.dtos.Productdto;
 import com.scaler.ecommerce.model.Product;
 import com.scaler.ecommerce.services.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +17,6 @@ public class ProductController {
     @Autowired
     IProductService iProductService;
 
-    //Getmapping
     @GetMapping("/products/{id}")
     public Productdto getProduct(@PathVariable Long id) {
 
@@ -43,10 +39,24 @@ public class ProductController {
     }
 
     @DeleteMapping("/product/{id}")
-    public boolean deleteProduct(Long id) {
+    public Productdto deleteProduct(Long id) {
+        Product product =
+                iProductService.deleteProduct(id);
 
-        return true;
+        return from(product);
 
+    }
+
+    @PostMapping("/products")
+    public Productdto createProduct(Product product) {
+        Product createdProduct = iProductService.createProduct(product);
+        return from(createdProduct);
+    }
+
+    @PutMapping("/products/{id}")
+    public Productdto updateProduct(@PathVariable Long id, @RequestBody Product product) {
+        Product updatedProduct = iProductService.replaceProduct(id,product);
+        return from(updatedProduct);
     }
 
 
