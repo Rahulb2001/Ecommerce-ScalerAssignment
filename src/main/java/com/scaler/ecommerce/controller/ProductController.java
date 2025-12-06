@@ -6,20 +6,25 @@ import com.scaler.ecommerce.dtos.Productdto;
 import com.scaler.ecommerce.exception.NotFoundException;
 import com.scaler.ecommerce.model.Product;
 import com.scaler.ecommerce.services.IProductService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@RequestMapping("/products/")
+@Slf4j
 public class ProductController {
 
     @Autowired
+    @Qualifier("databaseStorageProductService")
     IProductService iProductService;
 
     //Getmapping
-    @GetMapping("/products/{id}")
+    @GetMapping("{id}")
     public Productdto getProduct(@PathVariable Long id) {
 
         Product product = iProductService.getProductById(id);
@@ -31,7 +36,7 @@ public class ProductController {
         return from(product);
     }
 
-    @GetMapping("/products")
+    @GetMapping()
     public List<Productdto> getAllProducts() {
 
         List<Product> products = iProductService.getAllProducts();
@@ -44,14 +49,25 @@ public class ProductController {
         return productDtos;
     }
 
-    @DeleteMapping("/product/{id}")
+
+    @PostMapping()
+    public Productdto createProduct(@RequestBody Product product) {
+
+        log.info("Creating product {}", product);
+        Product createdProduct = iProductService.createProduct(product);
+
+        return from(createdProduct);
+    }
+
+
+    @DeleteMapping("{id}")
     public boolean deleteProduct(@PathVariable Long id) {
 
         return iProductService.deleteProduct(id);
 
     }
 
-    @PutMapping("/product/{id}")
+    @PutMapping("{id}")
     public Productdto updateProduct(@PathVariable Long id, @RequestBody Product product) {
 
         Product updatedProduct = iProductService.replaceProduct(id, product);
@@ -61,6 +77,8 @@ public class ProductController {
 
 
     public Productdto from(Product product) {
+
+        log.info("from {}", product);
         Productdto dto = new Productdto();
 
         dto.setId(product.getId());
@@ -88,6 +106,8 @@ public class ProductController {
         System.out.println(dto.getCategory());
 
 //        dto.setCategoryName(product.getCategory().getName());
+
+        log.info("Converted Product to Productdto: {}", dto);
 
         return dto;
     }

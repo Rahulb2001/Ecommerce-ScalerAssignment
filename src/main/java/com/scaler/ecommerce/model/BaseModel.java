@@ -1,6 +1,8 @@
 package com.scaler.ecommerce.model;
 
 
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
@@ -18,4 +20,10 @@ public class BaseModel {
     private Date createdAt;
     private Date updatedAt;
     private State state;
+
+    public BaseModel() {
+        this.createdAt = new Date();
+        this.updatedAt = new Date();
+        this.state = State.ACTIVE;
+    }
 }
